@@ -74,7 +74,8 @@ private:
 //constuctor 
 template <typename T, typename PComparator>
 Heap<T, PComparator>::Heap(int m, PComparator c) : 
-  m_(m), c_(c), size_(0) {}
+  m_(m), c_(c), size_(0) {
+	}
 //destructor  
 template <typename T, typename PComparator>
 Heap<T, PComparator>::~Heap() {}
@@ -111,19 +112,15 @@ void Heap<T,PComparator>::pop()
     throw std::underflow_error("Empty heap");
   }
   //replace top item with last item 
-  //std::cout << "Replacing " << items_[0] << "with " << items_.back() << std::endl;
 
   //remove first item 
-  //std::cout<<"Removing " << items_[0] << std::endl;
 
 	items_[0] = items_.back();
 	//std::cout << "Top is now " << items_[0] << std::endl;
   items_.pop_back();
   //trickle down the top element to correct spot 
-  //std::cout << "Trickle down item0" << std::endl;
 	trickleDown(0);
 	size_--;
-	//std::cout << "Size: " << size_ << std::endl;
 }
 
 
@@ -133,10 +130,7 @@ void Heap<T, PComparator>::push(const T& item) {
   //add to last open spot 
   items_.push_back(item);
   //move last item up to correct position 
-	//std::cout << "trickling up " << items_[items_.size()-1] << std::endl;
   trickleUp(size_-1);
-	//std::cout << "curr top: " << top() << std::endl;
-	//std::cout << "Size: " << size_ << std::endl;
 }
 
 template <typename T, typename PComparator>
@@ -151,12 +145,20 @@ size_t Heap<T, PComparator>::size() const {
 
 template <typename T, typename PComparator>
 void Heap<T, PComparator>::trickleUp(int index) {
+	
   int parent = (index-1)/m_;
+	if (parent < 0 || !c_(items_[index], items_[parent] )) {
+		return;
+	}
+  std::swap(items_[parent], items_[index]);
+	trickleUp(parent);
+	/*
+	int parent = (index-1)/m_;
   while (parent >= 0 && c_(items_[index], items_[parent]) ) {
     std::swap(items_[parent], items_[index]);
     index = parent;
     parent = (index-1)/m_;
-  }
+  }*/
   
 }
 
@@ -166,21 +168,14 @@ void Heap<T, PComparator>::trickleDown(int index) {
   //if index is leaf node (doesn't have left child), stop 
   if (bestChild >= size_ ) return;
   // find best child out of all children 
-  for (int i = 1; i < m_; i++){
+  for (int i = 0; i < m_; i++){
     int currChild = bestChild+i;
-
-		//std::cout << "currchild : " << currChild << " val: " << items_[currChild] << std::endl;
-    //std::cout << "this->size: " << this->size() << std::endl;
-		if (currChild < size_) {
-      //exists
-			//std::cout << "Another child found " << std::endl;
-      if (c_(items_[currChild], items_[bestChild])) {
-				//std::cout << "Currchild: " << items_[currChild] << " is better than bestChild (replacing): " << items_[bestChild] << std::endl;
-        bestChild = currChild;
-      }
+		if (currChild < size_ && c_(items_[currChild], items_[bestChild])) {
+      
+      bestChild = currChild;
+      
     }
   }
-  
   if(c_(items_[bestChild], items_[index])){
     std::swap(items_[index], items_[bestChild]);
     trickleDown(bestChild);

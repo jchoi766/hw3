@@ -4,7 +4,8 @@
 using namespace std;
 
 int main(int argc, char* argv[]) {
-	Heap<int> h;
+	Heap<int> h(4);
+
 	
 	h.push(10);
 	h.push(20);
@@ -25,8 +26,25 @@ int main(int argc, char* argv[]) {
 	h.pop();
 	h.push(1);
 	h.push(2);
+	h.push(3);
+	h.push(4);
+	h.push(5);
+	h.pop();
+	h.push(18);
+	h.push(17);
+	h.push(44);
+	h.push(19);
+	h.push(20);
+	h.push(46);
+	h.push(10);
+	h.push(17);
+	h.push(60);
+	h.push(12);
+	h.push(2);
+	h.push(47);
+
 	
-	cout << "Right before printing the heap: 1 2 20 30 40  "<< endl;
+	cout << "Right before printing the heap: "<< endl;
 	while (!h.empty()){
 		cout << "pop: " << h.top() << endl;
 		h.pop();

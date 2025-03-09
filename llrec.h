@@ -4,6 +4,7 @@
 #define NULL 0
 #endif
 
+#include <iostream> 
 /**
  * Node struct for both problems
  */
@@ -84,18 +85,24 @@ Node* llfilter(Node* head, Comp pred)
     //*********************************************
     // Provide your implementation below
     //*********************************************
-  if (head == NULL) return NULL;
+  if (head == NULL) {
+    return NULL;
+  }
+  //head recursion 
   if (pred(head->val)) {
-    //remove curr node from list 
+    // remove curr node from list 
     Node* temp = head;
     head = head->next;
     delete temp;
 
-    head->next = llfilter(head, pred);
+    head = llfilter(head, pred);
 
+  } else {
+    
+    head->next = llfilter(head->next, pred);
 
   }
-
+  return head;
 }
 
 
