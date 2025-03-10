@@ -60,6 +60,8 @@ public:
    */
   size_t size() const;
 
+	//for testing: 
+	void printItems();
 private:
   /// Add whatever helper functions and data members you need below
   void trickleDown(int index);
@@ -70,7 +72,15 @@ private:
 	int size_; // how many items in heap 
 };
 
+template <typename T, typename PComparator>
+void Heap<T,PComparator>::printItems() {
+	std::cout << "Items: ";
+	for (int i = 0 ; i < size_ ; i++){
 
+		std::cout << items_[i] << ", ";
+	}
+	std::cout << "\n";
+}
 //constuctor 
 template <typename T, typename PComparator>
 Heap<T, PComparator>::Heap(int m, PComparator c) : 
@@ -96,7 +106,7 @@ T const & Heap<T,PComparator>::top() const
   }
   // If we get here we know the heap has at least 1 item
   // Add code to return the top element
-  return items_[0];
+  return items_.at(0);
 }
 
 
@@ -114,13 +124,13 @@ void Heap<T,PComparator>::pop()
   //replace top item with last item 
 
   //remove first item 
-
+	size_--;
 	items_[0] = items_.back();
 	//std::cout << "Top is now " << items_[0] << std::endl;
   items_.pop_back();
   //trickle down the top element to correct spot 
 	trickleDown(0);
-	size_--;
+	
 }
 
 
@@ -164,19 +174,31 @@ void Heap<T, PComparator>::trickleUp(int index) {
 
 template <typename T, typename PComparator>
 void Heap<T, PComparator>::trickleDown(int index) {
+	//std::cout << "Trickling down: " << items_[index] << std::endl;
   int bestChild = index*m_ + 1; // index of left child 
+	//std::cout << "Left child: " << items_[bestChild] << std::endl;
   //if index is leaf node (doesn't have left child), stop 
-  if (bestChild >= size_ ) return;
+  if (bestChild >= size_ ) {
+		//std::cout << "Best child is greater than size; exit " << std::endl;
+		return;
+	}
   // find best child out of all children 
-  for (int i = 0; i < m_; i++){
-    int currChild = bestChild+i;
+	int currChild = bestChild;
+  for (int i = 1; i < m_; i++){
+    currChild++;
+		if (currChild >= size_) {
+
+			//std::cout << "currChild: " << currChild << " size_ " << size_ << " break here" << std::endl;
+			break;
+		}
+		//std::cout << "Checking " << items_[currChild] << std::endl;
 		if (currChild < size_ && c_(items_[currChild], items_[bestChild])) {
-      
-      bestChild = currChild;
-      
+      //std::cout << "currChild: " << items_[currChild] << " is better than bestChild: " << items_[bestChild] << std::endl;
+			bestChild = currChild;
     }
   }
   if(c_(items_[bestChild], items_[index])){
+		//std::cout << "Swap " << items_[index] << " and " << items_[bestChild] << std::endl;
     std::swap(items_[index], items_[bestChild]);
     trickleDown(bestChild);
   }
