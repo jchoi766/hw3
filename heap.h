@@ -60,7 +60,7 @@ public:
   size_t size() const;
 
 	//for testing: 
-	void printItems();
+	//void printItems();
 private:
   /// Add whatever helper functions and data members you need below
   void trickleDown(int index);
@@ -70,7 +70,7 @@ private:
   PComparator c_;
 	int size_; // how many items in heap 
 };
-
+/*
 template <typename T, typename PComparator>
 void Heap<T,PComparator>::printItems() {
 	std::cout << "Items: ";
@@ -79,7 +79,7 @@ void Heap<T,PComparator>::printItems() {
 		std::cout << items_[i] << ", ";
 	}
 	std::cout << "\n";
-}
+} */
 //constuctor 
 template <typename T, typename PComparator>
 Heap<T, PComparator>::Heap(int m, PComparator c) : 

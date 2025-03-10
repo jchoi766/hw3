@@ -13,8 +13,6 @@ stdexcept
 -
 vector
 -
-iostream
--
 
 /home/codio/workspace/hw3/hw3_tests/heap_tests/heap_tests.cpp
 heap.h
